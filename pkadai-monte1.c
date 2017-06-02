@@ -14,6 +14,7 @@ int main(void)
 	int s;					//乱数の種
 	int c = 0;
 	double keepz;
+	double keepz2;
 	
 	/* 乱数の種を入力 */
 	printf("入力：");
@@ -33,14 +34,18 @@ int main(void)
 			if(z<1)
 			count++;
 		}
-		if( c < 1 )
+		if(  c <= 1 )
 		{
-			keepz = z;
+			keepz = count;
+		}
+		if( 1 < c <= 2 )
+		{
+			keepz2 = count;
 		}
 	}
 	
 	/* 円周率を計算・出力 */
-	pi = (double)count / max * 4 / 2;
+	pi = (double)count / max  4 / 2;
 	printf("%f\n", pi);
 	/* 確率を計算・出力 */
 	pi = (double)count / max / 2;
@@ -48,5 +53,4 @@ int main(void)
 	
 	
 	return 0;
-
 }
