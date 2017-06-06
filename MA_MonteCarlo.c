@@ -8,6 +8,9 @@
 /**************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+
 #define		ERR		0.00001		/*確率の許容誤差*/
 
 
@@ -21,32 +24,44 @@
 
 int main(void)
 {
+	clock_t start, end;
+
 	int		i, j;			/*for文用変数*/
 	int		loop;			/*ループ回数*/
+	int		s;				/*乱数の種*/
+
 	double	x, y;			/*x座標、ｙ座標*/
 	double	z;				/*円内の範囲かどうかの変数*/
 	double	pi,pi2;			/*円内に入った確率保持の変数*/
 	double	pi3;			/*確率の差分の変数*/
 	double	pi4;			/*円周率（仮）*/
-	int		s;				/*乱数の種*/
+
 	int		count = 0;		/*円内に入った数の記録*/
 	double	keepc;			/*円内に入った回数の保持*/
 	double	keepc2;			/*円内に入った回数の保持(2回目)*/
 	
 	
+	printf( "1回目と2回目の確率の差分が収束値(0.00001)の範囲外の間、\n" );
+	printf( "乱数の種とループさせたい回数を入力し続けるので、\n" );
+	printf( "もしcygwinでコンパイルしているなら、「Ctrl + z」で終了させる。\n\n" );
+
+	start = clock();
+	printf( "開始時間:%d\n", start );
+	
+
+	/* 乱数の種を入力 */
+	printf("乱数の種を入力 =>");
+	scanf( "%d", &s );
+
+	/* 乱数の種を設定*/
+	srand(s);
+
 	while( 1 )
 	{
 		count = 0;
 		
-		/* 乱数の種を入力 */
-		printf("Random Seed Distiny =>");
-		scanf( "%d", &s );
-
-		/* 乱数の種を設定*/
-		srand(s);
-
 		/* ループ回数 */
-		printf("loop number：");
+		printf("ループさせたい回数を入力：");
 		scanf( "%d", &loop );
 
 		/*円周率を求めるため、ランダムな座標が円内に入る回数を求める*/
@@ -65,24 +80,25 @@ int main(void)
 					count++;
 				}
 			}
-		
+
 			/*円内に入った数の記録*/
-			if( i < 1 )
+			switch( i )
 			{
-				keepc = count;
-			}
-			if( 1 <= i < 2 )
-			{
-				keepc2 = count;
+				case 0:
+					keepc  = count;
+					break;
+				case 1:
+					keepc2 = count;
+					break;
 			}
 		} 
 
 		/* 確率を計算・出力 */
 		pi  = (double)keepc / loop;
-		printf("1回目： %f\n", pi);
+		printf("1回目の確率： %f\n", pi);
 
 		pi2 = (double)keepc2 / loop / 2;
-		printf("2回目： %f\n", pi2);
+		printf("2回目の確率： %f\n", pi2);
 		
 		/*前回と今回のループので出した確率の誤差を計算*/
 		if( pi < pi2 )
@@ -110,10 +126,13 @@ int main(void)
 	pi4 = pi * 4;
 	
 	/*円周率(仮)とループ回数表示*/
-	printf("pi3:%f\n\n",pi3);
-	printf("Pi:%f\n",pi4);
-	printf("loop:%d\n",loop);
+	printf("2回の確率の差分 : %f\n\n",pi3);
+	printf("円周率          : %f\n",pi4);
+	printf("ループさせた回数: %d\n",loop);
 
-	
+	end = clock();
+	printf( "終了時間:%d\n", end );
+	printf( "処理時間:%d[ms]", end - start );
+
 	return 0;
 }
