@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 #define		ERR		0.00001		/*確率の許容誤差*/
 
 
@@ -45,24 +44,28 @@ int main(void)
 	printf( "乱数の種とループさせたい回数を入力し続けるので、\n" );
 	printf( "もしcygwinでコンパイルしているなら、「Ctrl + z」で終了させる。\n\n" );
 
-	start = clock();
+	/* 処理時間 測定開始 */
+	start = clock(  );
+	/* 処理の開始時間を表示 */
 	printf( "開始時間:%d\n", start );
 	
 
 	/* 乱数の種を入力 */
-	printf("乱数の種を入力 =>");
-	scanf( "%d", &s );
+	printf( "乱数の種を入力 =>" );
+	scanf ( "%d", &s );
 
 	/* 乱数の種を設定*/
-	srand(s);
+	srand ( s );
 
-	while( 1 )
+	/* 確率が0か1でなく2回の確率の差分が0.00001の範囲になるまでループ */
+	/* ループを抜ける条件は116行目～124行目で指定 */
+	while ( 1 )
 	{
 		count = 0;
 		
 		/* ループ回数 */
-		printf("ループさせたい回数を入力：");
-		scanf( "%d", &loop );
+		printf( "ループさせたい回数を入力：" );
+		scanf ( "%d", &loop );
 
 		/*円周率を求めるため、ランダムな座標が円内に入る回数を求める*/
 		for( i = 0 ; i < 2 ; i++ )
@@ -70,12 +73,12 @@ int main(void)
 			for( j = 0 ; j < loop ;j++ )
 			{
 				/*ランダム座標生成 ( 0 <= x,y < 1 )*/
-			 	x = (double)rand()/((double)RAND_MAX + 1);
-			 	y = (double)rand()/((double)RAND_MAX + 1);
+			 	x  = (double)rand()/((double)RAND_MAX + 1);
+			 	y  = (double)rand()/((double)RAND_MAX + 1);
 
 				/*円内に入ったか判定*/
-				 z = x*x + y*y;
-				if(z < 1)
+				z  = x*x + y*y;
+				if (z < 1)
 				{
 					count++;
 				}
@@ -93,12 +96,13 @@ int main(void)
 			}
 		} 
 
-		/* 確率を計算・出力 */
+		/* 1回目のループで円内に入った確率を計算・出力 */
 		pi  = (double)keepc / loop;
-		printf("1回目の確率： %f\n", pi);
-
+		printf( "1回目の確率： %f\n", pi );
+		/* 2回目のループで円内に入った確率を計算・出力 */
+		/* keepc2÷loop÷2は2回目のループだから2で割っている */
 		pi2 = (double)keepc2 / loop / 2;
-		printf("2回目の確率： %f\n", pi2);
+		printf( "2回目の確率： %f\n", pi2 );
 		
 		/*前回と今回のループので出した確率の誤差を計算*/
 		if( pi < pi2 )
@@ -112,7 +116,8 @@ int main(void)
 
 		printf("2つの確率の差分 ：%f\n\n", pi3);
 
-		if(0 == (0 == pi || 1 == pi))
+		/* 確率が0か1ならループを続ける */
+		if( 0 == (0 == pi || 1 == pi))
 		{
 			/*誤差が規定範囲なら確率を出すループを抜ける*/
 			if( (ERR >= pi3) && (pi3 > 0) )
@@ -130,7 +135,9 @@ int main(void)
 	printf("円周率          : %f\n",pi4);
 	printf("ループさせた回数: %d\n",loop);
 
+	/* 処理時間の測定終了 */
 	end = clock();
+	/* 処理の終了時間と処理時間を表示 */
 	printf( "終了時間:%d\n", end );
 	printf( "処理時間:%d[ms]", end - start );
 
