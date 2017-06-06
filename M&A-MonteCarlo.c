@@ -23,27 +23,32 @@ int main(void)
 {
 	int i;
 	int count = 0;
-	int max = 100000000;
+//	int max = 100000000;
 	double x,y;				//座標の変数
 	double z;				//円内の範囲かどうかの変数
 	double pi,pi2;			//確率の変数
 	double pi3;				//確率の差分の変数
 	int s;					//乱数の種
-	int c = 0;
+	int r;					//ループ回数
+	int c = 0;				//2回生成する為のカウント
 	double keepz;
 	double keepz2;
 	
 	/* 乱数の種を入力 */
-	printf("入力：");
+	printf("乱数の種を入力：");
 	scanf( "%d", &s );
 
-	/* 乱数の種を */
+	/* ループ回数 */
+	printf("ループさせたい回数を入力：");
+	scanf( "%d", &r );
+	
+	/* 乱数の種 */
 	srand(s);	
 	
 	/* 0 〜 1 の乱数を生成・出力 */
 	while( c++ < 2 )
 	{
-		for( i = 0 ; i < max ; i++ )
+		for( i = 0 ; i < r ; i++ )
 		{
 			 x = (double)rand()/((double)RAND_MAX+1);
 			 y = (double)rand()/((double)RAND_MAX+1);
@@ -62,19 +67,14 @@ int main(void)
 	} 
 	
 	/* 確率を計算・出力 */
-	pi  = (double)keepz / max;
+	pi  = (double)keepz / r;
 	printf("1回目： %f\n", pi);
-	pi2 = (double)keepz2 / max / 2;
+	pi2 = (double)keepz2 / r / 2;
 	printf("2回目： %f\n", pi2);
 	
 	/* piとpi2の確率の差分 */
 	pi3 = (pi2 - pi);
 	printf("差分 ：%f\n", pi3);
-	
-	if( 0.00001 < pi3 )
-	{
-		
-	}
 	
 	return 0;
 }
