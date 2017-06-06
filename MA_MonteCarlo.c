@@ -78,7 +78,7 @@ int main(void)
 
 				/*円内に入ったか判定*/
 				z  = x*x + y*y;
-				if (z < 1)
+				if (z <= 1)
 				{
 					count++;
 				}
